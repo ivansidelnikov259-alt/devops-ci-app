@@ -151,4 +151,4 @@ jobs:
 
       - name: Check through Nginx
         run: |
-          curl --fail --silent --show-error "http://${{ env.VM_HOST }}:2223/health"
+          ssh -i ~/.ssh/devops_vm -p 2223 devops@172.29.64.1 "curl --fail --silent --show-error http://127.0.0.1/health"
