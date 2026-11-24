@@ -147,7 +147,11 @@ jobs:
       - name: Deploy with Ansible
         working-directory: ansible
         run: |
-          ansible-playbook -i inventory/prod.ini site.yml -e "app_tag=${{ github.sha }}"
+          TARGET_SHA=${{ github.event.before }}
+          if [ "$TARGET_SHA" = "0000000000000000000000000000000000000000" ]; then
+            TARGET_SHA=${{ github.sha }}
+          fi
+          ansible-playbook -i inventory/prod.ini site.yml -e "app_tag=$TARGET_SHA"
 
       - name: Check through Nginx
         run: |
